@@ -22,7 +22,12 @@ else:
 
 # Load YOLOv5 model
 
-model = torch.hub.load('./yolov5', 'custom', path=app.config['WEIGHTS_PATH'], source='local')
+import os
+
+yolov5_path = os.path.join(os.path.dirname(__file__), 'yolov5')
+model = torch.hub.load(yolov5_path, 'custom', path=app.config['WEIGHTS_PATH'], source='local')
+
+# model = torch.hub.load('./yolov5', 'custom', path=app.config['WEIGHTS_PATH'], source='local')
 
 # Open webcam
 cap = cv2.VideoCapture(0)
