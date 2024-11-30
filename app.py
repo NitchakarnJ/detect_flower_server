@@ -21,7 +21,7 @@ else:
     pathlib.WindowsPath = pathlib.PosixPath
 
 # Load YOLOv5 model
-yolov5_path = os.path.join(os.path.dirname(__file__), 'yolov5')
+yolov5_path = os.path.join(os.path.dirname(__file__), './yolov5')
 model = torch.hub.load(yolov5_path, 'custom', path=app.config['WEIGHTS_PATH'], source='local')
 
 # Open webcam (handle scenarios where webcam is unavailable, like on cloud servers)
