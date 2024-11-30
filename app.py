@@ -21,7 +21,11 @@ else:
     pathlib.WindowsPath = pathlib.PosixPath
 
 # Load YOLOv5 model
-yolov5_path = os.path.join(os.path.dirname(__file__), './yolov5')
+yolov5_path = os.path.join(os.path.dirname(__file__), 'yolov5')
+if not os.path.exists(os.path.join(yolov5_path, 'hubconf.py')):
+    raise FileNotFoundError(f"YOLOv5 path not found: {yolov5_path}")
+
+model = torch.hub.load(yolov5_path, 'custom', path=app.config['WEIGHTS_PATH'], source='local')
 model = torch.hub.load(yolov5_path, 'custom', path=app.config['WEIGHTS_PATH'], source='local')
 
 # Open webcam (handle scenarios where webcam is unavailable, like on cloud servers)
@@ -64,5 +68,5 @@ def detect_objects():
     return jsonify({"objects": detected_objects})
 
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 10000))  # Use Render's assigned port or default to 5000
-    app.run(debug=False, host='0.0.0.0', port=port)
+   port = int(os.environ.get('PORT', 5000))
+   app.run(debug=False, host='0.0.0.0', port=port)
