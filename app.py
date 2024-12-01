@@ -6,6 +6,7 @@ import cv2
 import requests
 import torch
 from flask import Flask, jsonify
+from flask_cors import CORS  # Import CORS
 from config import Config  # Import the unchanged config file
 
 warnings.filterwarnings("ignore", category=FutureWarning)
@@ -14,6 +15,9 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 app = Flask(__name__)
 app.config.from_object(Config)
 
+# Enable CORS for all routes (or specify your origins if needed)
+CORS(app)  # This will allow all origins to access your API
+
 # Adjust pathlib depending on the platform
 if platform.system() == 'Windows':
     pathlib.PosixPath = pathlib.WindowsPath
@@ -21,7 +25,7 @@ else:
     pathlib.WindowsPath = pathlib.PosixPath
 
 # Load YOLOv5 model
-yolov5_path = os.path.join(os.path.dirname(__file__), 'yolov5')
+yolov5_path = os.path.join(os.path.dirname(__file__), './yolov5')
 if not os.path.exists(os.path.join(yolov5_path, 'hubconf.py')):
     raise FileNotFoundError(f"YOLOv5 path not found: {yolov5_path}")
 
